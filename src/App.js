@@ -9,6 +9,7 @@ import Category from './Pages/Category'
 import Categorydetails from './Pages/Categorydetails'
 import Home from './Pages/Home'
 import Footer from './Common/Footer'
+import About from './Pages/About'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Nav />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/blog' element={<Blog />} />

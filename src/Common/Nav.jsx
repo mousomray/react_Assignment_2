@@ -53,6 +53,7 @@ const Nav = () => {
                 <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
                         <Link to="/" class="nav-item nav-link">Home</Link>
+                        <Link to="/about" class="nav-item nav-link">About</Link>
                         <Link to="/login" class="nav-item nav-link">Login</Link>
                         <Link to="/blog" class="nav-item nav-link">Blog</Link>
                         <Link to="/category" class="nav-item nav-link">Categories</Link>
