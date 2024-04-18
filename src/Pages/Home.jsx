@@ -1,8 +1,10 @@
 import React from 'react'
+import Layout from '../Common/Layout'
 
 const Home = () => {
     return (
         <>
+            <Layout>
             {/* <!-- Carousel Start --> */}
             <div class="container-fluid p-0">
                 <div id="header-carousel" class="carousel slide" data-ride="carousel">
@@ -88,7 +90,7 @@ const Home = () => {
                 </div>
             </div>
             {/* <!-- Destination Start --> */}
-
+            </Layout>
 
         </>
     )

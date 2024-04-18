@@ -4,6 +4,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Layout from '../Common/Layout';
+import { useAuth } from '../Context/Authcontext'; // Import useAuth from Authcontext.jsx
 
 const Login = () => {
     const initialState = {
@@ -13,6 +15,7 @@ const Login = () => {
 
     const [login, setLogin] = useState(initialState);
     const [error, setError] = useState({}) // Make usestate for error message
+    const [auth, setAuth] = useAuth() // Create custom hook for Auth
     const [loading, setloading] = useState(false);
     const navigate = useNavigate();
 
@@ -76,74 +79,88 @@ const Login = () => {
         setError(validation())
 
         if (Object.keys(ErrorList).length === 0) {
-        const apiUrl = "https://restapinodejs.onrender.com/api/login";
+            const apiUrl = "https://restapinodejs.onrender.com/api/login";
 
-        axios.post(apiUrl, login)
-            .then((response) => {
-                console.log(response);
-                setLogin(initialState);
-                toast.success(response.data.message);
+            axios.post(apiUrl, login)
+                .then((response) => {
+                    if (response?.data?.status === 200) {
+                        console.log(response);
+                        toast.success(response.data.message)
+                        //Auth area start in login
+                        setAuth({
+                            ...auth,
+                            user: response.data.user,
+                            token: response.data.token
+                        });
+                        localStorage.setItem("auth", JSON.stringify(response?.data))
+                        //Auth area end in login
+                        setloading(false)
+                        setTimeout(() => {
+                            navigate("/blog")
+                        }, 2000);
+                    }else{
+                        toast.error(response.data.message)
+                        setloading(false)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response.data);
+                    toast.error(error.response.data.message);
+                    setloading(false);
+                });
+        } else {
+            setTimeout(() => {
                 setloading(false);
-                setTimeout(() => {
-                    navigate('/blog')
-                }, 2000);
-            })
-            .catch((error) => {
-                console.log(error.response.data);
-                const errorMessage = error.response.data.message;
-                toast.error(errorMessage);
-                setloading(false);
-            });
-        }else{
-            setloading(false);
+            }, 200);
         }
     };
 
     return (
         <>
-            <ToastContainer />
+            <Layout>
+                <ToastContainer />
 
-            <div class="container-fluid py-5">
-                <div class="container py-5">
-                    <div class="text-center mb-3 pb-3">
-                        <h6 class="text-primary text-uppercase" style={{ letterSpacing: '5px' }}>Blog</h6>
-                        <h1>Login</h1>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="contact-form bg-white" style={{ padding: '30px' }}>
-                                <form name="sentMessage" id="contactForm" noValidate onSubmit={handleSubmit} method='post'>
-                                    <div class="control-group">
-                                        <input type="email" class="form-control p-4" id="email" name='email' placeholder="Email"
-                                            required data-validation-required-message="Please enter your email" onChange={handleChange} value={login.email} />
+                <div class="container-fluid py-5">
+                    <div class="container py-5">
+                        <div class="text-center mb-3 pb-3">
+                            <h6 class="text-primary text-uppercase" style={{ letterSpacing: '5px' }}>Blog</h6>
+                            <h1>Login</h1>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="contact-form bg-white" style={{ padding: '30px' }}>
+                                    <form name="sentMessage" id="contactForm" noValidate onSubmit={handleSubmit} method='post'>
+                                        <div class="control-group">
+                                            <input type="email" class="form-control p-4" id="email" name='email' placeholder="Email"
+                                                required data-validation-required-message="Please enter your email" onChange={handleChange} value={login.email} />
                                             <span style={{ color: 'red', display: 'block' }}> {error.email} </span>
-                                        <p class="help-block text-danger"></p>
-                                    </div>
-                                    <div class="control-group">
-                                        <input type="password" class="form-control p-4" id="password" name='password' placeholder="Password"
-                                            required data-validation-required-message="Enter your valid password" onChange={handleChange} value={login.password} />
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                        <div class="control-group">
+                                            <input type="password" class="form-control p-4" id="password" name='password' placeholder="Password"
+                                                required data-validation-required-message="Enter your valid password" onChange={handleChange} value={login.password} />
                                             <span style={{ color: 'red', display: 'block' }}> {error.password} </span>
-                                        <p class="help-block text-danger"></p>
-                                    </div>
+                                            <p class="help-block text-danger"></p>
+                                        </div>
 
-                                    <div class="text-center">
-                                        <button class="btn btn-primary py-3 px-4" type="submit" id="loginButton">
-                                            {loading ?
-                                                <div className="spinner-border" role="status">
-                                                    <span className="sr-only">Loading...</span>
-                                                </div>
-                                                :
-                                                'Login'}
-                                        </button>
-                                        <Link to='/register' class="nav-item nav-link"><p>Don't have an account ? Register now</p></Link>
-                                    </div>
-                                </form>
+                                        <div class="text-center">
+                                            <button class="btn btn-primary py-3 px-4" type="submit" id="loginButton">
+                                                {loading ?
+                                                    <div className="spinner-border" role="status">
+                                                        <span className="sr-only">Loading...</span>
+                                                    </div>
+                                                    :
+                                                    'Login'}
+                                            </button>
+                                            <Link to='/register' class="nav-item nav-link"><p>Don't have an account ? Register now</p></Link>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </Layout>
         </>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Loader from '../Common/Loader';
+import Layout from '../Common/Layout';
 
 const Blog = () => {
     const [blog, setBlog] = useState([]);
@@ -40,32 +41,36 @@ const Blog = () => {
 
 
     return (
-        <div className="container-fluid py-5">
-            <div className="container pt-5 pb-3">
-                <div className="text-center mb-3 pb-3">
-                    <h1>Blog</h1>
-                </div>
-                <div className="row">
-                    {blog.map((item) => (
-                        <div className="col-md-6 mb-4" key={item._id}>
-                            <div className="package-item bg-white mb-2" style={{ width: '400px', height: '600px', margin: '0 auto' }}>
-                                <img className="img-fluid" src={`https://restapinodejs.onrender.com/api/blog/image/${item._id}`} alt="" style={{ height: '225px', objectFit: 'cover', justifyContent: 'center', alignItems: 'center' }} />
-                                <div className="p-4">
-
-                                    <h3>{item?.title}</h3>
-                                    <p
-
-                                        dangerouslySetInnerHTML={{ __html: item?.postText.slice(0, 300) }}
-
-                                    />
-                                    <Link to={`/blogdetails/${item._id}`}>See more...</Link>
-                                </div>
-                            </div>
+        <>
+            <Layout>
+                <div className="container-fluid py-5">
+                    <div className="container pt-5 pb-3">
+                        <div className="text-center mb-3 pb-3">
+                            <h1>Blog</h1>
                         </div>
-                    ))}
+                        <div className="row">
+                            {blog.map((item) => (
+                                <div className="col-md-6 mb-4" key={item._id}>
+                                    <div className="package-item bg-white mb-2" style={{ width: '400px', height: '600px', margin: '0 auto' }}>
+                                        <img className="img-fluid" src={`https://restapinodejs.onrender.com/api/blog/image/${item._id}`} alt="" style={{ height: '225px', objectFit: 'cover', justifyContent: 'center', alignItems: 'center' }} />
+                                        <div className="p-4">
+
+                                            <h3>{item?.title}</h3>
+                                            <p
+
+                                                dangerouslySetInnerHTML={{ __html: item?.postText.slice(0, 300) }}
+
+                                            />
+                                            <Link to={`/blogdetails/${item._id}`}>See more...</Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </Layout>
+        </>
     );
 };
 

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import Loader from '../Common/Loader'
+import Layout from '../Common/Layout'
 
 const Category = () => {
 
@@ -32,14 +33,14 @@ const Category = () => {
 
     return (
         <>
-            <>
+            <Layout>
                 <div className="container-md mt-5">
                     <div className="table-responsive">
                         <table className="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th style={{fontSize:'25px'}}>Category</th>
-                                    <th style={{fontSize:'25px'}}>Action</th>
+                                    <th style={{ fontSize: '25px' }}>Category</th>
+                                    <th style={{ fontSize: '25px' }}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,7 +60,7 @@ const Category = () => {
                         </table>
                     </div>
                 </div>
-            </>
+            </Layout>
         </>
     )
 }

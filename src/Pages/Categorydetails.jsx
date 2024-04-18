@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import Loader from '../Common/Loader'
+import Layout from '../Common/Layout'
 
 
 const Categorydetails = () => {
@@ -36,6 +37,7 @@ const Categorydetails = () => {
 
     return (
         <>
+            <Layout>
             {/* <!-- Packages Start --> */}
             <div class="container-fluid py-5">
                 <div class="container pt-5 pb-3">
@@ -67,6 +69,7 @@ const Categorydetails = () => {
                 </div>
             </div>
             {/* <!-- Packages End --> */}
+            </Layout>
         </>
     )
 }
